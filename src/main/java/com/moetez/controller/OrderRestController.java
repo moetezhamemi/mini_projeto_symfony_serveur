@@ -54,23 +54,25 @@ public class OrderRestController {
         return order.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
     @GetMapping("/invoice")
-    public ResponseEntity<Map<String, Object>> generateInvoice(
-        @RequestParam String userName) {
-        
-        List<Order> pendingOrders = orderService.getPendingOrdersByUserName(userName);
+    public ResponseEntity<Map<String, Object>> generateInvoice(@RequestParam Long userId) {
+        List<Order> pendingOrders = orderService.getPendingOrdersByUserId(userId);
         double invoiceTotal = orderService.calculateInvoiceTotal(pendingOrders);
         
         if (pendingOrders.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        
         Map<String, Object> response = new HashMap<>();
-        response.put("user", pendingOrders.get(0).getUser()); // Toutes les commandes ont le même user
+        response.put("user", pendingOrders.get(0).getUser()); 
         response.put("orders", pendingOrders);
         response.put("invoiceTotal", invoiceTotal);
         
         return ResponseEntity.ok(response);
     }
+    @GetMapping("/user/{id}")
+    public List<Order> getOrdersByUserId(@PathVariable("id") Long userId) {
+        return orderService.getOrdersByUserId(userId);
+    }
+
 
     
 }

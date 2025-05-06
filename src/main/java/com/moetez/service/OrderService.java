@@ -56,16 +56,21 @@ public class OrderService {
     public Optional<Order> getOrderById(Long id) {
         return orderRepository.findById(id);
     }
-    public List<Order> getPendingOrdersByUserName(String nameUser) {
-        return orderRepository.findByStatusAndUser_NameUserContainingIgnoreCase("pending", nameUser);
-    }
+    /*public List<Order> getPendingOrdersByUserName(String nameUser) {
+        return orderRepository.findByStatusAndUser_NameUserContainingIgnoreCase("Pending", nameUser);
+    }*/
 
     public double calculateInvoiceTotal(List<Order> orders) {
         return orders.stream()
                     .mapToDouble(Order::getTotal)
                     .sum();
     }
-
+    public List<Order> getPendingOrdersByUserId(Long userId) {
+        return orderRepository.findByStatusAndUser_IdUser("Pending", userId);
+    }
+    public List<Order> getOrdersByUserId(Long userId) {
+        return orderRepository.findByUser_IdUser(userId);
+    }
 
 
 }

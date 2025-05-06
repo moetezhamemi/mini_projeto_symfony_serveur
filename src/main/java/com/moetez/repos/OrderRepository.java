@@ -9,8 +9,7 @@ import com.moetez.entities.Order;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
 	  List<Order> findByStatusAndUser_NameUserContainingIgnoreCase(String status, String nameUser);
-	    
 	    List<Order> findByUser_IdUser(Long userId);
-	 // Ajoutez cette méthode dans OrderRepository.java
-	    List<Order> findByStatusAndUser_IdUser(String status, Long idUser);
+	    List<Order> findByStatusAndUser_IdUser(String status, Long userId);
+
 }
